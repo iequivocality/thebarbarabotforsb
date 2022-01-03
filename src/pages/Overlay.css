@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'RSpectr';
+    src: url(../fonts/R-Spectr.otf);
+}
+
+.overlay {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+}

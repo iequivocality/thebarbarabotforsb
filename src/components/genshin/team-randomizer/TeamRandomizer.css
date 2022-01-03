@@ -1,0 +1,65 @@
+.team-randomizer-background,
+.team-randomizer-background-hidden {
+    width: 1920px;
+    height: 1080px;
+    background-color: rgba(0,0,0,0.5);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 2s;
+}
+
+.team-randomizer-background-hidden {
+    background-color: rgba(0,0,0,0);
+}
+
+.team-randomizer-container {
+    display: flex;
+    width: 800px;
+    height: 500px;
+    flex-direction: column;
+    top: 290px;
+    left: 560px;
+    z-index: 100;
+    color: #FFF;
+    font-family: 'Montserrat', sans-serif;
+    transform: scale(1);
+}
+
+.title {
+    height: 40px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.team-randomizer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.team-card {
+    width: 150px;
+    height: 480px;
+    background-color: #AAA;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.team-card > img {
+    max-width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+.credits {
+    height: 40px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}

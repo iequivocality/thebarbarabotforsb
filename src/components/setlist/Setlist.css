@@ -1,0 +1,50 @@
+.setlist, .setlist-invisible {
+    color: #000;
+    font-weight: bold;
+    position: absolute;
+    width: 400px;
+    height: 600px;
+    top: 300px;
+    left: 1500px;
+    background-color: #FFF;
+    border-radius: 15px;
+    transition: opacity 800ms;
+    /* border: 2px solid #4A4B8A; */
+}
+
+.setlist {
+    opacity: 1;
+}
+
+.setlist-invisible {
+    opacity: 0;
+}
+
+.setlist-title {
+    font-size: 28px;
+    text-align: center;
+    color: #4A4B8A;
+    font-family: 'RSpectr', sans-serif;
+    margin-bottom: 10px;
+}
+
+.setlist-contents {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.song-list-item,
+.invisible-song-list-item {
+    font-size: 24px;
+    color: #4A4B8A;
+    font-family: 'Montserrat', sans-serif;
+    transition: opacity 500;
+}
+
+.song-list-item {
+    opacity: 1;
+}
+
+.invisible-song-list-item {
+    opacity: 0;
+}

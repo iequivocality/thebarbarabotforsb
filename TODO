@@ -1,0 +1,56 @@
+
+Todo:
+  ✔ Add cooldown (5 seconds) before command is active. @done(21-01-30 18:37)
+  ✔ Add the simpler text commands. @done(21-02-05 09:14)
+  ✔ Create a "command service" that will be ran when message is received @done(21-02-05 20:20)
+  ☐ Add the shoutout command
+    ☐ Check for the !so command
+    ☐ Get the user from the !so command
+    ☐ Get the game from the user id
+    ☐ Build Mustache template
+    ☐ Use template for shout out command
+  
+
+  The $(rngphrase AMAZING,TALENTED,BRILLIANT,INCREDIBLE,SPECTACULAR,AWESOME) 
+  @$(user) IS HERE! Check 'em out play $(game $(user)) at https://twitch.tv/$(user)!
+  
+Timers table:
+  - name
+  - command
+  - interval
+  - minimum chat lines
+
+Commands table:
+  - name
+  - template/response
+  - created by
+  - created on
+  - enabled
+  - user cooldown
+  - global cooldown (implemented)
+  - minimum userlevel (non-subs, subscriber, founder, VIP, regular, moderator, super moderator, channel editor, channel admin, broadcaster)
+
+
+Libraries:
+  mustache js
+  React JS
+  sqlite3
+  redux
+  react-redux
+
+- Get the message and check if valid command
+- Get the command template
+- Parse the template and parse the result to create a view based on variables
+- Render on mustache based on view
+- Send the command
+
+References:
+  https://twitchtokengenerator.com/
+  https://dev.twitch.tv/docs/api/reference
+  https://firebase.google.com/docs/auth/web/password-auth
+  https://firebase.google.com/docs/database/web/start
+  https://create-react-app.dev/docs/adding-bootstrap
+  https://github.com/tmijs/docs/blob/gh-pages/_posts/v1.4.2/2019-03-03-Configuration.md
+  https://github.com/twitch-js/twitch-js
+  https://github.com/twitch-js/twitch-js/blob/next/src/Client/Client.ts
+  https://www.freecodecamp.org/news/authenticate-users-and-save-data-in-a-database-using-firebase/

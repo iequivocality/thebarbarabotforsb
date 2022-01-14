@@ -16,7 +16,8 @@ const Main = ({ location }) => {
     console.log("MAIN LOCATION", location)
     return (
         <Container fluid>
-            <Row>
+            <Overlay/>
+            {/* <Row>
                 {location.pathname !== '/overlay' && <Col xs lg="1"><Navbar/></Col>}
                 <Col className="main-container">
                     <Switch>
@@ -37,7 +38,7 @@ const Main = ({ location }) => {
                         </Route>
                     </Switch>
                 </Col>
-            </Row>
+            </Row> */}
         </Container>
     );
 }

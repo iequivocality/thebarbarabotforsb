@@ -9,10 +9,11 @@ import TeamCard from './TeamCard';
 import Util from '../../../util/Util';
 import TwitchNotificationType from '../../../models/TwitchNotificationType';
 import _ from 'lodash';
+import { useSocketSubscribe } from '../../../providers/websockets';
 
 const NO_CHARACTERS = [ 'albedo', 'eula', 'ganyu', 'kazuha', 'klee', 'kokomi', 'mona', 'tartaglia', 'venti', 'xiao', 'yoimiya' ];
 
-const socket = new WebSocket('ws://localhost:8081');
+const socket = new WebSocket('ws://127.0.0.1:8080');
 
 const TeamRandomizer = () => {
     let [ sender, setSender ] = useState('');
@@ -27,28 +28,90 @@ const TeamRandomizer = () => {
     }));
 
     useEffect(() => {
-        socket.onopen = function (event) {
-            console.log("connected to SB socket");
-        };
+        // socket.onopen = function (event) {
+        //     console.log("connected to SB socket");
 
-        socket.onmessage = function (msgEvent) {
-            console.log("on message event", msgEvent);
-            const msg = JSON.parse(msgEvent.data);
-	        console.log('Message from server: ', msg);
-            let { type, payload } = msg;
-            let { userName, reward, broadcasterUserName } = payload;
-            if (type !== TwitchNotificationType.CHANNEL_POINT_REDEEM || reward.title !== "Genshin Roulette" ) {
-                return;
-            }
+        //     socket.send(JSON.stringify(
+        //         {
+        //             "request": "Subscribe",
+        //             "events": {
+        //                 "general": [
+        //                     "Custom"
+        //                 ],
+        //                 "Twitch": [
+        //                     "RewardRedemption"
+        //                 ]
+        //             },
+        //             "id": "123"
+        //         }
+        //     ));
+        // };
 
-            setSender(userName);
-            // setBroadcaster(broadcasterUserName);
-            // //show container
-            setShow(true);
-            setLooped(true);
-            setPlaying(true);
-            setSelectedCharacters([]);
+        // socket.onmessage = function (msgEvent) {
+        //     console.log("on message event", msgEvent);
+        //     const msg = JSON.parse(msgEvent.data);
+	    //     console.log('Message from server: ', msg);
+
+        //     let { event, data } = msg;
+        //     if (!event) {
+        //         return;
+        //     }
+
+
+        //     let { type } = event;
+        //     if (type !== "RewardRedemption" || data.title !== "Genshin Roulette" ) {
+        //         return;
+        //     }
+
+        //     let { displayName } = data;
+
+        //     // let { type, payload } = msg;
+        //     // let { userName, reward, broadcasterUserName } = payload;
+        //     // if (type !== TwitchNotificationType.CHANNEL_POINT_REDEEM || reward.title !== "Genshin Roulette" ) {
+        //     //     return;
+        //     // }
+
+        //     setSender(displayName);
+        //     // setBroadcaster(broadcasterUserName);
+        //     //show container
+        //     setShow(true);
+        //     setLooped(true);
+        //     setPlaying(true);
+        //     setSelectedCharacters([]);
+        // }
+    });
+
+    useSocketSubscribe('message', (msgEvent) => {
+        console.log("TeamRandomizer - on message event", msgEvent);
+        const msg = JSON.parse(msgEvent.data);
+        console.log('TeamRandomizer - Message from server: ', msg);
+
+        let { event, data } = msg;
+        if (!event) {
+            return;
         }
+
+
+        let { type } = event;
+        if (type !== "RewardRedemption" || data.title !== "Genshin Roulette" ) {
+            return;
+        }
+
+        let { displayName } = data;
+
+        // let { type, payload } = msg;
+        // let { userName, reward, broadcasterUserName } = payload;
+        // if (type !== TwitchNotificationType.CHANNEL_POINT_REDEEM || reward.title !== "Genshin Roulette" ) {
+        //     return;
+        // }
+
+        setSender(displayName);
+        // setBroadcaster(broadcasterUserName);
+        //show container
+        setShow(true);
+        setLooped(true);
+        setPlaying(true);
+        setSelectedCharacters([]);
     });
 
     useEffect(() => {
@@ -59,12 +122,24 @@ const TeamRandomizer = () => {
 
     let sendResults = (characters : string[]) => {
         if (characters.length === 4) {
+            // socket.send(JSON.stringify({
+            //     request: "RunAction",
+            //     data: {
+            //         name: "Send Message to Twitch",
+            //         text: `I'll be playing ${characters.map((c) => _.capitalize(c)).join(', ')} for the rest of the stream!`
+            //     }
+            // }));
+
             socket.send(JSON.stringify({
-                request: "RunAction",
-                data: {
-                    name: "Send Message to Twitch",
-                    text: `I'll be playing ${characters.map((c) => _.capitalize(c)).join(', ')} for the rest of the stream!`
-                }
+                "request": "DoAction",
+                "action": {
+                  "id": "e43385be-17e5-4024-a507-652339b00fc6",
+                  "name": "[GEN] Send Message"
+                },
+                "args": {
+                  "message": `I'll be playing ${characters.map((c) => _.capitalize(c)).join(', ')} for the rest of the stream!`,
+                },
+                "id": "123"
             }));
 
             anime({
@@ -132,7 +207,7 @@ const TeamRandomizer = () => {
 
 
     return (
-        <div className={show ? "team-randomizer-background" : "team-randomizer-background-hidden"}>
+        <div className={"team-randomizer-background-hidden"}>
             {
                 show ? (
                     <div className="team-randomizer-container">
